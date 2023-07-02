@@ -1,3 +1,19 @@
+ #
+ # Copyright (c) 2023 Cuerpo de Bomberos de Valparaíso.
+ #
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, version 3.
+ #
+ # This program is distributed in the hope that it will be useful, but
+ # WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ # General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with this program. If not, see <http://www.gnu.org/licenses/>.
+ #
+
 import json
 from os import path
 import os
@@ -50,7 +66,7 @@ hours = []
 def generatePie(company, month, year):
    # Filter
     unitRange = company * 10
-    companyThsEmergencys = [b for b in listObj if ([c for c in b['units'] if (c['unidad'] == str(unitRange + 1) or c['unidad'] == str(unitRange + 2) or c['unidad'] == str(unitRange + 3))])] if company != 0 else listObj
+    companyThsEmergencys = [b for b in listObj if ([c for c in b['units'] if (c['recurso'] == str(unitRange + 1) or c['recurso'] == str(unitRange + 2) or c['recurso'] == str(unitRange + 3))])] if company != 0 else listObj
     if not companyThsEmergencys: return
     companyThsEmergencysDate = []
     if year == 0:
@@ -86,9 +102,6 @@ def generatePie(company, month, year):
     # First Ring (outside)
     fig, ax = plt.subplots()
     ax.axis('equal')
-    print(counted.items())
-    ousideData = dict(functools.reduce(operator.add, map(collections.Counter, my_dict)))[{k.split("-")[0]: v} for k,v in counted.items()]
-    print(ousideData)
     mypie, _ = ax.pie(counted.values(), labels = labels, radius=1, colors = pie2Colors, textprops={'fontsize': 10})
     plt.setp(mypie, width=0.1, edgecolor='white')
 

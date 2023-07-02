@@ -1,3 +1,19 @@
+ #
+ # Copyright (c) 2023 Cuerpo de Bomberos de Valparaíso.
+ #
+ # This program is free software: you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+ # the Free Software Foundation, version 3.
+ #
+ # This program is distributed in the hope that it will be useful, but
+ # WITHOUT ANY WARRANTY; without even the implied warranty of
+ # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ # General Public License for more details.
+ #
+ # You should have received a copy of the GNU General Public License
+ # along with this program. If not, see <http://www.gnu.org/licenses/>.
+ #
+
 import requests
 import json
 import re
@@ -62,18 +78,18 @@ while True:
     if emergency == "" or rUnits.text == "":
         error = error + 1
         lastId = lastId + 1
-        if error > 400:
+        if error > 888:
             break
     else:
         units = html_to_json(rUnits.text)
-        delimiter = "Z-"
+        delimiter = "  "
         for unit in units:
-            my_str = unit["zetas del despacho"]
+            my_str = unit["registro del recurso"]
             result = ['{}{}'.format(delimiter, s) for s in my_str.split(delimiter) if s]
-            unit["zetas del despacho"] = result
+            unit["registro del recurso"] = result
         emergency["units"] = units
         listObj.append(emergency)
-        uniades = ", ".join(d['unidad'] for d in emergency["units"])
+        uniades = ", ".join(d['recurso'] for d in emergency["units"])
         print(formatter.format(emergency["id"], emergency["fech"], emergency["sigla"], error, emergency["dir"], uniades))
         lastId = lastId + 1
         with open("./result.json", 'w') as file:
